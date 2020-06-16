@@ -11,9 +11,10 @@ class YummyTummy extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: "Yummy in my Tummy",
-        home: CategoriesScreen(),
+        initialRoute: "/",
         routes: {
-          '/category-meals': (ctx) => CategoryMealsScreen(),
+          '/': (ctx) => CategoriesScreen(),
+          CategoryMealsScreen.routName: (ctx) => CategoryMealsScreen(),
         },
         theme: ThemeData(
             primarySwatch: Colors.pink,
