@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import './categories_screen.dart';
+import './category_meals_screen.dart';
 
 void main() => runApp(YummyTummy());
 
@@ -11,6 +12,9 @@ class YummyTummy extends StatelessWidget {
     return MaterialApp(
         title: "Yummy in my Tummy",
         home: CategoriesScreen(),
+        routes: {
+          '/category-meals': (ctx) => CategoryMealsScreen(),
+        },
         theme: ThemeData(
             primarySwatch: Colors.pink,
             accentColor: Colors.amber,
