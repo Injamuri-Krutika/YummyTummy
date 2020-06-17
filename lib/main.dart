@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import './screens/categories_screen.dart';
 import './screens/category_meals_screen.dart';
+import './screens/meal_detail_screen.dart';
 
 void main() => runApp(YummyTummy());
 
@@ -14,7 +14,15 @@ class YummyTummy extends StatelessWidget {
         initialRoute: "/",
         routes: {
           '/': (ctx) => CategoriesScreen(),
-          CategoryMealsScreen.routName: (ctx) => CategoryMealsScreen(),
+          CategoryMealsScreen.routeName: (ctx) => CategoryMealsScreen(),
+          MealDetailScreen.routeName: (ctx) => MealDetailScreen()
+        },
+        onGenerateRoute: (settings) {
+          print(settings.arguments);
+          // return MaterialPageRoute(builder: (ctx) => CategoriesScreen());
+        },
+        onUnknownRoute: (settings) {
+          return MaterialPageRoute(builder: (ctx) => CategoriesScreen());
         },
         theme: ThemeData(
             primarySwatch: Colors.pink,
