@@ -24,12 +24,11 @@ class _YummyTummyState extends State<YummyTummy> {
   };
 
   List<Meal> _availableMeals = DUMMY_MEALS;
+  List<Meal> _favouriteMeals = [];
 
   void _setFilters(Map<String, bool> filterData) {
     setState(() {
       _filters = filterData;
-      print(filterData);
-      print(DUMMY_MEALS.length);
       _availableMeals = DUMMY_MEALS.where((meal) {
         if (_filters['gluten'] && !meal.isGlutenFree) return false;
         if (_filters['lactose'] && !meal.isLactoseFree) return false;
@@ -37,8 +36,27 @@ class _YummyTummyState extends State<YummyTummy> {
         if (_filters['vegetarian'] && !meal.isVegetarian) return false;
         return true;
       }).toList();
-      print(_availableMeals.length);
     });
+  }
+
+  void _toggleFavorites(String mealId) {
+    final existingIndex =
+        _favouriteMeals.indexWhere((meal) => meal.id == mealId);
+
+    if (existingIndex >= 0) {
+      setState(() {
+        _favouriteMeals.removeAt(existingIndex);
+      });
+    } else {
+      setState(() {
+        _favouriteMeals
+            .add(DUMMY_MEALS.firstWhere((meal) => meal.id == mealId));
+      });
+    }
+  }
+
+  bool _isMealFavorite(String id) {
+    return _favouriteMeals.any((meal) => meal.id == id);
   }
 
   @override
@@ -47,10 +65,11 @@ class _YummyTummyState extends State<YummyTummy> {
         title: "Yummy in my Tummy",
         initialRoute: "/",
         routes: {
-          '/': (ctx) => TabsScreen(),
+          '/': (ctx) => TabsScreen(_favouriteMeals),
           CategoryMealsScreen.routeName: (ctx) =>
               CategoryMealsScreen(_availableMeals),
-          MealDetailScreen.routeName: (ctx) => MealDetailScreen(),
+          MealDetailScreen.routeName: (ctx) =>
+              MealDetailScreen(_toggleFavorites, _isMealFavorite),
           FiltersScreen.routeName: (ctx) => FiltersScreen(_filters, _setFilters)
         },
         onGenerateRoute: (settings) {
